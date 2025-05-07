@@ -309,6 +309,7 @@ class SpannerGraphQAChain(Chain):
         generated_gql = extract_gql(gen_response)
 
         if self.verify_gql:
+            intermediate_steps.append({"raw_generated_gql": generated_gql})
             verify_response = self.gql_verify_chain.invoke(
                 {
                     "question": question,
