@@ -74,7 +74,7 @@ INTERMEDIATE_STEPS_KEY = "intermediate_steps"
 class InvalidGQLGenerationError(ValueError):
     def __init__(self, message, intermediate_steps=None):
         self.intermediate_steps = intermediate_steps
-        super().__init__(f"{message}. Intermediate steps: {self.intermediate_steps}")
+        super().__init__(message)
 
 
 class SpannerGraphQAChain(Chain):
