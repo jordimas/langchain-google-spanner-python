@@ -1214,7 +1214,9 @@ class SpannerImpl(SpannerInterface):
     def query(self, query: str, params: dict = {}) -> List[Dict[str, Any]]:
         param_types = {k: TypeUtility.value_to_param_type(v) for k, v in params.items()}
         with self.database.snapshot() as snapshot:
-            rows = snapshot.execute_sql(query, params=params, param_types=param_types)
+            rows = snapshot.execute_sql(
+                query, params=params, param_types=param_types, timeout=self.timeout
+            )
             return [
                 {
                     column: value
@@ -1276,7 +1278,7 @@ class SpannerGraphStore(GraphStore):
             instance_id,
             database_id,
             client_with_user_agent(client, USER_AGENT_GRAPH_STORE),
-            timeout = timeout
+            timeout=timeout,
         )
         self.schema = SpannerGraphSchema(
             graph_name,
