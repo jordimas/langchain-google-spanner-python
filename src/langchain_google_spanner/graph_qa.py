@@ -301,7 +301,6 @@ class SpannerGraphQAChain(Chain):
         generated_gql = extract_gql(gen_response)
 
         if self.verify_gql:
-            intermediate_steps.append({"raw_generated_gql": generated_gql})
             verify_response = self.gql_verify_chain.invoke(
                 {
                     "question": question,
@@ -310,6 +309,7 @@ class SpannerGraphQAChain(Chain):
                 }
             )
             if "verified_gql" in verify_response:
+                intermediate_steps.append({"raw_generated_gql": generated_gql})
                 verified_gql = fix_gql_syntax(verify_response["verified_gql"])
                 intermediate_steps.append({"verified_gql": verified_gql})
             else:
